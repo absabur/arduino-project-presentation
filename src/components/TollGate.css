@@ -1,0 +1,92 @@
+/* TollGate.css */
+.tollgate-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.gate {
+  width: 330px;
+  height: 30px;
+  background: repeating-linear-gradient(
+    90deg,
+    #ffd000 0%, /* Start yellow */
+    #ffd000 10%, /* Yellow ends at 10% */
+    #000000 10%, /* Black starts at 10% */
+    #000000 20%  /* Black ends at 20% */
+  ); /* Alternating yellow and black stripes */
+  border-radius: 10px;
+  position: relative;
+  transform-origin: left center; /* Anchor the rotation at the left edge */
+  transition: transform 0.5s ease-in-out; /* Smooth rotation animation */
+  position: relative;
+  border: 1px solid black;
+  z-index: 2;
+}
+
+/* Gate closed state */
+.gate.closed {
+  transform: rotate(0deg); /* Gate is closed (horizontal) */
+}
+
+/* Gate open state */
+.gate.open {
+  transform: rotate(-90deg); /* Gate rotates 90 degrees to open */
+}
+
+/* Button styles */
+.toggle-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.toggle-button:hover {
+  background-color: #0056b3;
+}
+
+
+
+.stop-go {
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  color: white;
+  padding: 4px;
+}
+.inner-stop-go {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  border: 4px solid rgb(255, 255, 255);
+  border-radius: 100%;
+}
+
+.go {
+  background-color: green;
+}
+
+.stop {
+  background-color: red;
+}
+
+
