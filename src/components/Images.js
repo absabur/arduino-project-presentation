@@ -72,7 +72,7 @@ const Images = () => {
           borderTop: "1px solid #ccc",
         }}
       >
-        <p>প্রজেক্ট পরিকল্পনা: মোঃ আব্দুস সবুর</p>
+        <p>Project by 6-CST-2. Group-A</p>
       </footer>
     </div>
   );

@@ -99,7 +99,7 @@ const ProcessFlow = () => {
           borderTop: "1px solid #ccc",
         }}
       >
-        <p>প্রক্রিয়া উপস্থাপনা: মোঃ আব্দুস সবুর</p>
+        <p>Project by 6-CST-2. Group-A</p>
       </footer>
     </div>
   );
