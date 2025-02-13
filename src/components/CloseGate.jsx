@@ -1,5 +1,9 @@
 function CloseButton() {
   const handleClose = async () => {
+    let con = confirm("Are you sure you want to close the gate?");
+    if (!con) {
+      return;
+    }
     try {
       const response = await fetch("http://localhost:5000/close", {
         method: "POST",

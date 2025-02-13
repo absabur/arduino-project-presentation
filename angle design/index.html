@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>High-Quality Angle Meter</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 30px;
+        font-family: Arial, sans-serif;
+        /* background-color: #276bb9; */
+      }
+      svg {
+        border: 1px solid #ddd;
+      }
+      button {
+        margin-top: 20px;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.plugin.svg.min.js"></script>
+  </head>
+  <body>
+    <!-- SVG Container for Angle Meter -->
+    <svg
+      id="angleMeter"
+      width="950"
+      height="1200"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <!-- <rect width="100%" height="100%" fill="rgb(16, 82, 121)"/> -->
+    </svg>
+
+    <button onclick="downloadSVG()">Download as SVG</button>
+    <button onclick="downloadPDF()">Download as PDF</button>
+
+    <script>
+      const svg = document.getElementById("angleMeter");
+      const centerX = 400;
+      const radius = 300; // Adjust as needed
+      const angleStep = 7.8; // Degrees per tick
+
+      let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      text.setAttribute("x", 600);
+      text.setAttribute("y", -880);
+      text.setAttribute("text-anchor", "middle");
+      text.setAttribute("dominant-baseline", "middle");
+      text.setAttribute("font-size", "55");
+      text.setAttribute("fill", "#33ff00"); // No fill for the outline
+      text.setAttribute("stroke", "black"); // Border color
+      text.setAttribute("stroke-width", "1"); // Border thickness
+      text.textContent = `Parking Slot & Distance Management System`;
+      text.setAttribute("transform", "rotate(90)");
+      svg.appendChild(text);
+
+      let text1 = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "text"
+      );
+      text1.setAttribute("x", 400);
+      text1.setAttribute("y", 570);
+      text1.setAttribute("text-anchor", "middle");
+      text1.setAttribute("dominant-baseline", "middle");
+      text1.setAttribute("font-size", "35");
+      text1.setAttribute("fill", "#33ff00"); // No fill for the outline
+      text1.setAttribute("stroke", "black"); // Border color
+      text1.setAttribute("stroke-width", "1"); // Border thickness
+      text1.textContent = `Centimeter (cm)`;
+      svg.appendChild(text1);
+
+      text1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      text1.setAttribute("x", 400);
+      text1.setAttribute("y", 1170);
+      text1.setAttribute("text-anchor", "middle");
+      text1.setAttribute("dominant-baseline", "middle");
+      text1.setAttribute("font-size", "35");
+      text1.setAttribute("fill", "aqua"); // No fill for the outline
+      text1.setAttribute("stroke", "black"); // Border color
+      text1.setAttribute("stroke-width", "1"); // Border thickness
+      text1.textContent = `Centimeter (cm)`;
+      svg.appendChild(text1);
+
+      // Draw Angle Meter in SVG
+      function drawAngleMeter(centerY) {
+        let color;
+        
+        if (centerY == 1100) {
+          color = 'aqua'
+        }else {
+          color = '#33ff00'
+        }
+        // Draw Arc
+        const arcPath = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "path"
+        );
+        arcPath.setAttribute(
+          "d",
+          describeArc(centerX, centerY, radius, -78, 78)
+        );
+        arcPath.setAttribute("stroke", "black");
+        arcPath.setAttribute("stroke-width", "5");
+        arcPath.setAttribute("fill", "none");
+        svg.appendChild(arcPath);
+        const arcPath2 = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "path"
+        );
+        arcPath2.setAttribute("d", describeArc(centerX, centerY, 100, -78, 78));
+        arcPath2.setAttribute("stroke", "black");
+        arcPath2.setAttribute("stroke-width", "5");
+        arcPath2.setAttribute("fill", "none");
+        svg.appendChild(arcPath2);
+
+        const innerarcPath = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "path"
+        );
+        innerarcPath.setAttribute(
+          "d",
+          describeArc(centerX, centerY, radius, -78, 78)
+        );
+        innerarcPath.setAttribute("stroke", color);
+        innerarcPath.setAttribute("stroke-width", "3");
+        innerarcPath.setAttribute("fill", "none");
+        svg.appendChild(innerarcPath);
+        const innerarcPath2 = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "path"
+        );
+        innerarcPath2.setAttribute(
+          "d",
+          describeArc(centerX, centerY, 100, -78, 78)
+        );
+        innerarcPath2.setAttribute("stroke", color);
+        innerarcPath2.setAttribute("stroke-width", "3");
+        innerarcPath2.setAttribute("fill", "none");
+        svg.appendChild(innerarcPath2);
+
+        const filledCircle = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "circle"
+        );
+        filledCircle.setAttribute("cx", centerX); // Center X position
+        filledCircle.setAttribute("cy", centerY); // Center Y position
+        filledCircle.setAttribute("r", 30); // Radius
+        filledCircle.setAttribute("fill", "black");
+        svg.appendChild(filledCircle);
+
+        const filledCircle2 = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "circle"
+        );
+        filledCircle2.setAttribute("cx", centerX - 30); // Center X position
+        filledCircle2.setAttribute("cy", centerY); // Center Y position
+        filledCircle2.setAttribute("r", 10); // Radius
+        filledCircle2.setAttribute("fill", "black");
+        svg.appendChild(filledCircle2);
+
+        const line = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "line"
+        );
+        line.setAttribute("x1", 0);
+        line.setAttribute("y1", centerY);
+        line.setAttribute("x2", 800);
+        line.setAttribute("y2", centerY);
+        line.setAttribute("stroke", "rgba(0,0,0,0.1)");
+        line.setAttribute("stroke-width", "2");
+        svg.appendChild(line);
+
+        // Draw Ticks and Labels
+        for (let i = 12; i <= 169; i += angleStep) {
+          const angleRad = (Math.PI / 180) * i;
+          const x1 = centerX + (radius - 203) * Math.cos(angleRad);
+          const y1 = centerY - (radius - 203) * Math.sin(angleRad);
+          const x2 = centerX + (radius + 25) * Math.cos(angleRad);
+          const y2 = centerY - (radius + 25) * Math.sin(angleRad);
+
+          // Draw Tick
+          const line = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "line"
+          );
+          line.setAttribute("x1", x1);
+          line.setAttribute("y1", y1);
+          line.setAttribute("x2", x2);
+          line.setAttribute("y2", y2);
+          line.setAttribute("stroke", "black");
+          line.setAttribute("stroke-width", "5");
+          svg.appendChild(line);
+
+          const innerline = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "line"
+          );
+          innerline.setAttribute("x1", x1);
+          innerline.setAttribute("y1", y1);
+          innerline.setAttribute("x2", x2);
+          innerline.setAttribute("y2", y2);
+          innerline.setAttribute("stroke", color);
+          innerline.setAttribute("stroke-width", "3");
+          svg.appendChild(innerline);
+
+          // Draw Label
+          const labelX = centerX + (radius + 35) * Math.cos(angleRad - 0.06);
+          const labelY = centerY - (radius + 35) * Math.sin(angleRad - 0.06);
+
+          const outlineText = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+          );
+          outlineText.setAttribute("x", labelX);
+          outlineText.setAttribute("y", labelY);
+          outlineText.setAttribute("text-anchor", "middle");
+          outlineText.setAttribute("dominant-baseline", "middle");
+          outlineText.setAttribute("font-size", "34");
+          outlineText.setAttribute("font-family", "Arial, sans-serif"); // Set font family
+          outlineText.setAttribute("fill", color); // No fill for the outline
+          outlineText.setAttribute("stroke", "black"); // Border color
+          outlineText.setAttribute("stroke-width", "1"); // Border thickness
+          outlineText.textContent = `${Math.round((i - 12) / 7.8)}`;
+          if (Math.round((i - 12) / 7.8) > 0) {
+            svg.appendChild(outlineText);
+          }
+        }
+      }
+
+      // Function to Describe Arc for SVG Path
+      function describeArc(x, y, radius, startAngle, endAngle) {
+        const start = polarToCartesian(x, y, radius, endAngle);
+        const end = polarToCartesian(x, y, radius, startAngle);
+        const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+
+        return [
+          "M",
+          start.x,
+          start.y,
+          "A",
+          radius,
+          radius,
+          0,
+          largeArcFlag,
+          0,
+          end.x,
+          end.y,
+        ].join(" ");
+      }
+
+      // Convert Polar to Cartesian Coordinates
+      function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+        const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
+        return {
+          x: centerX + radius * Math.cos(angleInRadians),
+          y: centerY + radius * Math.sin(angleInRadians),
+        };
+      }
+
+      // Draw the Angle Meter
+      drawAngleMeter(500);
+
+      const line = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "line"
+      );
+      line.setAttribute("x1", 0);
+      line.setAttribute("y1", 600);
+      line.setAttribute("x2", 800);
+      line.setAttribute("y2", 600);
+      line.setAttribute("stroke", "black");
+      line.setAttribute("stroke-width", "1");
+      svg.appendChild(line);
+
+      drawAngleMeter(1100);
+
+      // Download SVG
+      function downloadSVG() {
+        const serializer = new XMLSerializer();
+        const source = serializer.serializeToString(svg);
+        const blob = new Blob([source], { type: "image/svg+xml" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "angleMeter.svg";
+        link.click();
+      }
+
+      // Download as PDF using jsPDF
+      async function downloadPDF() {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF();
+
+        const svgElement = document.getElementById("angleMeter");
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+
+        await pdf.svg(svgData, {
+          x: 10,
+          y: 10,
+          width: 200,
+          height: 200, // Adjust dimensions
+        });
+
+        pdf.save("angleMeter.pdf");
+      }
+    </script>
+
+    <!-- Import jsPDF and jsPDF SVG Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.plugin.svg.min.js"></script>
+  </body>
+</html>

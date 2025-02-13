@@ -24,10 +24,11 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <nav className="navbar">
           <Link href="/">Home</Link>
-          <Link href="/project-plan">Plan</Link>
-          <Link href="/project-process">Process</Link>
-          <Link href="/images">Images</Link>
+          {/* <Link href="/project-plan">Plan</Link> */}
+          {/* <Link href="/project-process">Process</Link> */}
+          {/* <Link href="/images">Images</Link> */}
           <Link href="/display">Display</Link>
+          <Link href="/admin">Admin</Link>
         </nav>
         <main className="main">{children}</main>
       </body>

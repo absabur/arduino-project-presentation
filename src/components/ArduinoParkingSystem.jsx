@@ -13,13 +13,13 @@ const ArduinoParkingSystem = () => {
   // Function to fetch Arduino data from the server
   const fetchArduinoData = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/data");
+      const response = await fetch("http://localhost:5000/data");
       const data = await response.json();
       setArduinoData(data);
       setSlot(parseFloat(data["slotsLeft"]));
       setDistance(parseFloat(data["distance"]));
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.log("Error fetching data:", error);
       setArduinoData("Failed to load data."); // Set error message if fetch fails
     }
   };
@@ -33,7 +33,13 @@ const ArduinoParkingSystem = () => {
   }, []);
 
   return (
-    <div style={{ fontFamily: "Arial, sans-serif", margin: "20px 0" }}>
+    <div
+      style={{
+        fontFamily: "Arial, sans-serif",
+        margin: "20px 0",
+        position: "relative",
+      }}
+    >
       <h1>Arduino Parking System</h1>
       <div className="full">
         <div className="slots">
@@ -49,7 +55,7 @@ const ArduinoParkingSystem = () => {
                     ? "#FFA700"
                     : slot === 2
                     ? "#53FF00"
-                    : slot === 3
+                    : slot >= 3
                     ? "green"
                     : "",
                 background: `conic-gradient(
@@ -60,11 +66,13 @@ const ArduinoParkingSystem = () => {
                             ? "#FFA700"
                             : slot === 2
                             ? "#53FF00"
-                            : slot === 3
+                            : slot >= 3
                             ? "green"
                             : ""
-                        } 0deg ${slot * 120}deg, 
-                        black ${slot * 120}deg 360deg
+                        } 0deg ${slot * (360 / arduinoData["totalSlot"])}deg, 
+                        black ${
+                          slot * (360 / arduinoData["totalSlot"])
+                        }deg 360deg
                       )`,
               }}
             >
@@ -136,13 +144,11 @@ const ArduinoParkingSystem = () => {
         </div>
       </div>
       <div className="toll-gate">
-        <div style={{position: "absolute", right: "10px", top: "10px"}}>
-          {
-            arduinoData["gateStatus"] === "Gate opened" && !arduinoData['carOnGate'] && (
-              <CloseButton />
-            )
-          }
+        <div style={{ position: "absolute", right: "10px", top: "10px" }}>
+          {arduinoData["gateStatus"] === "Gate opened" &&
+            !arduinoData["carOnGate"] && <CloseButton />}
         </div>
+
         <div className="piller piller-l">
           <div className="bim"></div>
         </div>
@@ -151,6 +157,18 @@ const ArduinoParkingSystem = () => {
           <div className="bim"></div>
         </div>
       </div>
+
+      <footer
+        style={{
+          textAlign: "center",
+          background: "#f1f1f1",
+          padding: "1rem",
+          marginTop: "2rem",
+          borderTop: "1px solid #ccc",
+        }}
+      >
+        <p>Project by 6-CST-2. Group-A</p>
+      </footer>
     </div>
   );
 };

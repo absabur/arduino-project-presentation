@@ -5,6 +5,9 @@ import meter from "../images/meter.jpg";
 import insideboard from "../images/insideboard.jpg";
 import parking from "../images/parking.jpg";
 import toolgate from "../images/toolgate.jpg";
+import preview1 from "../images/preview1.jpg";
+import preview2 from "../images/preview2.jpg";
+import preview3 from "../images/preview3.jpg";
 
 import Link from "next/link";
 
@@ -58,6 +61,15 @@ const Images = () => {
           </Link>
           <Link target="_blank" href={`http://localhost:3000//${toolgate.src}`}>
             <img className="gallery-img" src={toolgate.src} />
+          </Link>
+          <Link target="_blank" href={`http://localhost:3000//${preview1.src}`}>
+            <img className="gallery-img" src={preview1.src} />
+          </Link>
+          <Link target="_blank" href={`http://localhost:3000//${preview2.src}`}>
+            <img className="gallery-img" src={preview2.src} />
+          </Link>
+          <Link target="_blank" href={`http://localhost:3000//${preview3.src}`}>
+            <img className="gallery-img" src={preview3.src} />
           </Link>
         </section>
       </main>
